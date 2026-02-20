@@ -95,7 +95,7 @@ export default function Home() {
     <>
       <Navbar cartCount={cartCount} onCartOpen={() => setIsCartOpen(true)} />
 
-      <main>
+      <main style={{ position: "relative" }}>
         <HeroSection />
 
         <section
@@ -154,8 +154,9 @@ export default function Home() {
             width={120}
             height={48}
             style={{
-              height: "48px",
+              height: "auto",
               width: "auto",
+              maxHeight: "48px",
               objectFit: "contain",
               filter: "brightness(0) saturate(100%) invert(78%) sepia(48%) saturate(500%) hue-rotate(5deg) brightness(105%)",
             }}

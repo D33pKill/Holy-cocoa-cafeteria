@@ -26,8 +26,8 @@ export default function Navbar({ cartCount, onCartOpen }: NavbarProps) {
                             src="/logo.png"
                             alt="Holy Cocoa"
                             width={140}
-                            height={56}
-                            style={{ height: "52px", width: "auto", objectFit: "contain" }}
+                            height={52}
+                            style={{ height: "auto", width: "auto", maxHeight: "52px", objectFit: "contain" }}
                             priority
                         />
                     </div>
