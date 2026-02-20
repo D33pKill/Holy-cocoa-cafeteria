@@ -1,8 +1,109 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
+
+// ── Ghost Click Button ────────────────────────────────────────────────────────
+function MenuButton() {
+    const [rippleKey, setRippleKey] = useState(0);
+    const [ghostActive, setGhostActive] = useState(false);
+
+    // Dispara el ghost click cada 3 segundos
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setGhostActive(true);
+            setRippleKey((k) => k + 1);
+            setTimeout(() => setGhostActive(false), 400);
+        }, 3000);
+        return () => clearInterval(interval);
+    }, []);
+
+    return (
+        // Glow exterior que pulsa en sincronía con el ghost click
+        <motion.div
+            animate={ghostActive
+                ? { boxShadow: "0 0 48px 16px rgba(212,175,55,0.55)" }
+                : { boxShadow: "0 0 22px 4px rgba(212,175,55,0.28)" }
+            }
+            transition={{ duration: 0.35, ease: "easeOut" }}
+            style={{ display: "inline-block", borderRadius: "9999px" }}
+        >
+            <motion.a
+                href="#menu"
+                // Ghost Click: shrink 1.0 → 0.95 → 1.0
+                animate={ghostActive
+                    ? { scale: [1, 0.95, 1] }
+                    : { scale: 1 }
+                }
+                transition={ghostActive
+                    ? { duration: 0.38, ease: "easeInOut" }
+                    : { duration: 0.2 }
+                }
+                // Interacción real del usuario
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.90, transition: { duration: 0.08 } }}
+                style={{
+                    position: "relative",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: "1rem 2.8rem",
+                    background: "linear-gradient(135deg, #FDE68A 0%, #D4AF37 50%, #B8860B 100%)",
+                    color: "#2D1810",
+                    borderRadius: "9999px",
+                    fontWeight: 800,
+                    fontSize: "0.95rem",
+                    textDecoration: "none",
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    border: "1px solid rgba(212,175,55,0.5)",
+                    boxShadow: "0 6px 20px rgba(212,175,55,0.4)",
+                    overflow: "hidden",
+                    cursor: "pointer",
+                }}
+            >
+                {/* Shimmer sweep pasivo */}
+                <motion.span
+                    animate={{ x: ["-130%", "230%"] }}
+                    transition={{ duration: 1.0, repeat: Infinity, repeatDelay: 2.6, ease: "easeInOut" }}
+                    style={{
+                        position: "absolute",
+                        inset: 0,
+                        width: "40%",
+                        background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.38), transparent)",
+                        transform: "skewX(-12deg)",
+                        pointerEvents: "none",
+                    }}
+                />
+
+                {/* Ripple — onda de choque desde el centro */}
+                <AnimatePresence>
+                    <motion.span
+                        key={rippleKey}
+                        initial={{ scale: 0, opacity: 0.55 }}
+                        animate={{ scale: 3.5, opacity: 0 }}
+                        transition={{ duration: 0.65, ease: "easeOut" }}
+                        style={{
+                            position: "absolute",
+                            width: "80px",
+                            height: "80px",
+                            borderRadius: "50%",
+                            backgroundColor: "rgba(255,255,255,0.35)",
+                            pointerEvents: "none",
+                            top: "50%",
+                            left: "50%",
+                            marginTop: "-40px",
+                            marginLeft: "-40px",
+                        }}
+                    />
+                </AnimatePresence>
+
+                VER EL MENÚ
+            </motion.a>
+        </motion.div>
+    );
+}
 
 export default function HeroSection() {
     const ref = useRef<HTMLDivElement>(null);
@@ -114,58 +215,7 @@ export default function HeroSection() {
                     >
                         Cookies, brownies y café de especialidad hechos con amor y el mejor chocolate.
                     </p>
-                    {/* Wrapper que pulsa en loop para llamar la atención */}
-                    <motion.div
-                        animate={{ scale: [1, 1.05, 1] }}
-                        transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut", repeatDelay: 0.8 }}
-                        style={{ display: "inline-block" }}
-                    >
-                        <motion.a
-                            href="#menu"
-                            whileHover={{ scale: 1.06, boxShadow: "0 0 36px rgba(212,175,55,0.75)" }}
-                            whileTap={{ scale: 0.94 }}
-                            style={{
-                                position: "relative",
-                                display: "inline-flex",
-                                alignItems: "center",
-                                gap: "0.5rem",
-                                padding: "1rem 2.6rem",
-                                background: "linear-gradient(135deg, #F0D060 0%, #D4AF37 55%, #A8861A 100%)",
-                                color: "#2D1810",
-                                borderRadius: "9999px",
-                                fontWeight: 800,
-                                fontSize: "1rem",
-                                textDecoration: "none",
-                                letterSpacing: "0.08em",
-                                textTransform: "uppercase",
-                                boxShadow: "0 6px 24px rgba(212,175,55,0.55), 0 0 0 0px rgba(212,175,55,0.3)",
-                                overflow: "hidden",
-                            }}
-                        >
-                            {/* Shimmer sweep — destello que cruza el botón */}
-                            <motion.span
-                                animate={{ x: ["-120%", "220%"] }}
-                                transition={{ duration: 1.1, repeat: Infinity, repeatDelay: 2.4, ease: "easeInOut" }}
-                                style={{
-                                    position: "absolute",
-                                    top: 0, left: 0,
-                                    width: "45%", height: "100%",
-                                    background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.45), transparent)",
-                                    transform: "skewX(-15deg)",
-                                    pointerEvents: "none",
-                                }}
-                            />
-                            Ver el Menú
-                            {/* Flecha animada que sube y baja */}
-                            <motion.span
-                                animate={{ y: [0, 4, 0] }}
-                                transition={{ duration: 0.9, repeat: Infinity, ease: "easeInOut" }}
-                                style={{ fontSize: "1.1rem", lineHeight: 1 }}
-                            >
-                                ↓
-                            </motion.span>
-                        </motion.a>
-                    </motion.div>
+                    <MenuButton />
                 </motion.div>
             </motion.div>
 
