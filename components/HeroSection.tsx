@@ -18,7 +18,7 @@ function MenuButton() {
         const end = target.getBoundingClientRect().top + start;
         const duration = 700;
         const startTime = performance.now();
-        const ease = (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        const ease = (t: number) => 1 - Math.pow(1 - t, 3); // easeOutCubic: arranca rápido, frena suave
         const step = (now: number) => {
             const elapsed = now - startTime;
             const progress = Math.min(elapsed / duration, 1);
