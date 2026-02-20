@@ -9,6 +9,25 @@ function MenuButton() {
     const [rippleKey, setRippleKey] = useState(0);
     const [ghostActive, setGhostActive] = useState(false);
 
+    // Scroll suave con duración y easing custom
+    const scrollToMenu = (e: React.MouseEvent) => {
+        e.preventDefault();
+        const target = document.getElementById("menu");
+        if (!target) return;
+        const start = window.scrollY;
+        const end = target.getBoundingClientRect().top + start;
+        const duration = 1600;
+        const startTime = performance.now();
+        const ease = (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        const step = (now: number) => {
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            window.scrollTo(0, start + (end - start) * ease(progress));
+            if (progress < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+    };
+
     // Dispara el ghost click cada 3 segundos
     useEffect(() => {
         const interval = setInterval(() => {
@@ -31,6 +50,7 @@ function MenuButton() {
         >
             <motion.a
                 href="#menu"
+                onClick={scrollToMenu}
                 // Ghost Click: shrink 1.0 → 0.95 → 1.0
                 animate={ghostActive
                     ? { scale: [1, 0.95, 1] }
