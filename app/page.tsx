@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import Image from "next/image";
 import { PRODUCTS, formatPrice, type Category, type Product } from "@/lib/products";
 import Navbar from "@/components/Navbar";
@@ -23,6 +23,13 @@ let toastId = 0;
 
 // ─── Page ────────────────────────────────────────────────────────────────────
 export default function Home() {
+  // Siempre arranca desde arriba, sin importar el scroll anterior
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      history.scrollRestoration = "manual";
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
+  }, []);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [activeCategory, setActiveCategory] = useState<Category>("Todos");
   const [isCartOpen, setIsCartOpen] = useState(false);
