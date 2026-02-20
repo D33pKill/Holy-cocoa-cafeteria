@@ -114,28 +114,58 @@ export default function HeroSection() {
                     >
                         Cookies, brownies y café de especialidad hechos con amor y el mejor chocolate.
                     </p>
-                    <motion.a
-                        href="#menu"
-                        whileHover={{
-                            scale: 1.04,
-                            boxShadow: "0 0 28px rgba(212,175,55,0.65)",
-                        }}
-                        whileTap={{ scale: 0.96 }}
-                        style={{
-                            display: "inline-block",
-                            padding: "0.85rem 2.2rem",
-                            background: "linear-gradient(135deg, #F0D060 0%, #D4AF37 55%, #A8861A 100%)",
-                            color: "#2D1810",
-                            borderRadius: "9999px",
-                            fontWeight: 800,
-                            fontSize: "0.95rem",
-                            textDecoration: "none",
-                            letterSpacing: "0.06em",
-                            boxShadow: "0 4px 18px rgba(212,175,55,0.45)",
-                        }}
+                    {/* Wrapper que pulsa en loop para llamar la atención */}
+                    <motion.div
+                        animate={{ scale: [1, 1.05, 1] }}
+                        transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut", repeatDelay: 0.8 }}
+                        style={{ display: "inline-block" }}
                     >
-                        Ver Menú ↓
-                    </motion.a>
+                        <motion.a
+                            href="#menu"
+                            whileHover={{ scale: 1.06, boxShadow: "0 0 36px rgba(212,175,55,0.75)" }}
+                            whileTap={{ scale: 0.94 }}
+                            style={{
+                                position: "relative",
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: "0.5rem",
+                                padding: "1rem 2.6rem",
+                                background: "linear-gradient(135deg, #F0D060 0%, #D4AF37 55%, #A8861A 100%)",
+                                color: "#2D1810",
+                                borderRadius: "9999px",
+                                fontWeight: 800,
+                                fontSize: "1rem",
+                                textDecoration: "none",
+                                letterSpacing: "0.08em",
+                                textTransform: "uppercase",
+                                boxShadow: "0 6px 24px rgba(212,175,55,0.55), 0 0 0 0px rgba(212,175,55,0.3)",
+                                overflow: "hidden",
+                            }}
+                        >
+                            {/* Shimmer sweep — destello que cruza el botón */}
+                            <motion.span
+                                animate={{ x: ["-120%", "220%"] }}
+                                transition={{ duration: 1.1, repeat: Infinity, repeatDelay: 2.4, ease: "easeInOut" }}
+                                style={{
+                                    position: "absolute",
+                                    top: 0, left: 0,
+                                    width: "45%", height: "100%",
+                                    background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.45), transparent)",
+                                    transform: "skewX(-15deg)",
+                                    pointerEvents: "none",
+                                }}
+                            />
+                            Ver el Menú
+                            {/* Flecha animada que sube y baja */}
+                            <motion.span
+                                animate={{ y: [0, 4, 0] }}
+                                transition={{ duration: 0.9, repeat: Infinity, ease: "easeInOut" }}
+                                style={{ fontSize: "1.1rem", lineHeight: 1 }}
+                            >
+                                ↓
+                            </motion.span>
+                        </motion.a>
+                    </motion.div>
                 </motion.div>
             </motion.div>
 
