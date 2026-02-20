@@ -16,7 +16,7 @@ function MenuButton() {
         if (!target) return;
         const start = window.scrollY;
         const end = target.getBoundingClientRect().top + start;
-        const duration = 1600;
+        const duration = 700;
         const startTime = performance.now();
         const ease = (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
         const step = (now: number) => {
